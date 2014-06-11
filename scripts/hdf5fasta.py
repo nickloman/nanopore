@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 import h5py
 from Bio import SeqIO
 from StringIO import StringIO
@@ -25,7 +27,8 @@ for fn in sys.argv[1:]:
 			rec = SeqIO.read(StringIO(fq), "fastq")
 			rec.id += "_" + id
 			rec.description = fn
-			SeqIO.write([rec], sys.stdout, "fasta")
+			SeqIO.write([rec], sys.stdout, "fastq")
+
 
 			stats[key] += 1
 		except Exception, e:

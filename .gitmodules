@@ -1,3 +1,6 @@
 [submodule "ext/h5view"]
 	path = ext/h5view
 	url = https://github.com/rossant/h5view
+[submodule "ext/biopython"]
+	path = ext/biopython
+	url = https://github.com/biopython/biopython

@@ -15,7 +15,7 @@ for fn in sys.argv[1:]:
 		print >>sys.stderr, "Error opening %s" % (fn,)
 		continue
 
-	for event in hdf['/Analyses/Basecall_2D_000/BaseCalled_complement/Events'][()]:
+	for event in hdf['/Analyses/Basecall_2D_000/BaseCalled_template/Events'][()]:
 		print "\t".join([str(e) for e in event])
 
 	hdf.close()
