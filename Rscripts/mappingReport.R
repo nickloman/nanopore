@@ -1,0 +1,8 @@
+library(ggplot2)
+args<-commandArgs(TRUE)
+a<-read.table(args[1], header=T)
+ggplot(a, aes(x=AlignLen)) + geom_histogram(colour="black", fill="white", binwidth=500) + theme_bw()
+ggsave("alignment_histogram.png", width=7, height=5)
+ggplot(a, aes(x=AlignLen, y=NumMismatches)) + geom_point()
+ggsave("alignment_errors.png", width=5, height=5)
+quit()

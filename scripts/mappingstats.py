@@ -13,8 +13,14 @@ for read in samfile:
 
 	results = []
 	results.append(read.qname.ljust(25))
-	results.append(t['XQ'])
-	results.append(t['XL'])
+
+	# BLASR mode
+	if 'XQ' in t and 'XL' in t:
+		results.append(t['XQ'])
+		results.append(t['XL'])
+	else:
+		results.append(read.qlen)
+		results.append(read.alen)
 	results.append(t['NM'])
 
 	print "\t".join([str(r) for r in results])

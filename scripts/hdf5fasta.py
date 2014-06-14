@@ -13,12 +13,12 @@ keys = {'template' : '/Analyses/Basecall_2D_000/BaseCalled_template/Fastq',
 stats = defaultdict(int)
 
 for fn in sys.argv[1:]:
-	print >>sys.stderr, "Trying %s" % (fn)
+#	print >>sys.stderr, "Trying %s" % (fn)
 	stats['files'] += 1
 	try:
 		hdf = h5py.File(fn, 'r')
 	except Exception, e:
-		print >>sys.stderr, "Error opening %s" % (fn,)
+		print >>sys.stderr, "Error opening %s: %s" % (fn, e)
 		continue
 
 	for id, key in keys.iteritems():
@@ -27,12 +27,11 @@ for fn in sys.argv[1:]:
 			rec = SeqIO.read(StringIO(fq), "fastq")
 			rec.id += "_" + id
 			rec.description = fn
-			SeqIO.write([rec], sys.stdout, "fastq")
-
-
+			SeqIO.write([rec], sys.stdout, "fasta")
 			stats[key] += 1
 		except Exception, e:
-			print >>sys.stderr, e
+		#	print >>sys.stderr, e
+			pass
 	hdf.close()
 
 for k in stats.keys():

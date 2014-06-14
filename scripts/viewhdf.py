@@ -1,5 +1,8 @@
+#!/usr/bin/python
+
 import h5view
 import sys
 
-with h5view.open(sys.argv[1]) as f:
-        print(f)
+for fn in sys.argv[1:]:
+	with h5view.open(fn) as f:
+        	print(f)
