@@ -1,0 +1,5 @@
+library(ggplot2)
+start_time=min(st$V1)
+st=read.table("allstats.txt", header=F)
+st=cbind(st, "Hours" = floor((V1 - start_time)/3600))
+ggplot(st, aes(factor(Hours))) + geom_bar() + theme(axis.text.x = element_text(angle = 90, hjust = 1))

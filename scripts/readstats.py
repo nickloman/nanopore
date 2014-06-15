@@ -13,9 +13,14 @@ for fn in sys.argv[1:]:
 		print >>sys.stderr, "Error opening %s" % (fn,)
 		continue
 
-	start_time = hdf['UniqueGlobalKey']['tracking_id'].attrs['exp_start_time']
-	channel_number = hdf['UniqueGlobalKey']['read_id'].attrs['channel_number']
-	read_number = hdf['UniqueGlobalKey']['read_id'].attrs['read_number']
+	if 'UniqueGlobalKey' in hdf:
+		k = hdf['UniqueGlobalKey']
+	else:
+		k = hdf['Key']
+
+	start_time = k['tracking_id'].attrs['exp_start_time']
+	channel_number = k['read_id'].attrs['channel_number']
+	read_number = k['read_id'].attrs['read_number']
 
 	try:
 		template_len = len(hdf['/Analyses/Basecall_2D_000/BaseCalled_template/Events'][()])
