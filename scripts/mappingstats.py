@@ -2,17 +2,20 @@
 
 import pysam
 import sys
+import re
 
 samfile = pysam.Samfile(sys.argv[1], "rb")
 
-fields = ['Name', 'QueryLen', 'AlignLen', 'NumMismatches']
+fields = ['Name', 'Direction', 'QueryLen', 'AlignLen', 'NumMismatches']
 print "\t".join(fields)
 
 for read in samfile:
 	t = dict(read.tags)
 
 	results = []
-	results.append(read.qname.ljust(25))
+	results.append(read.qname)
+	direction = read.qname.split("_")[-1]
+	results.append(direction)
 
 	# BLASR mode
 	if 'XQ' in t and 'XL' in t:
