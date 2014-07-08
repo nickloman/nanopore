@@ -6,7 +6,15 @@ from StringIO import StringIO
 import sys
 from collections import defaultdict
 
+def get_hdf5_len(obj, key):
+	try:
+		return len(obj['key'][()])
+	except Exception:
+		return 0
+
 for fn in sys.argv[1:]:
+	result = []
+
 	try:
 		hdf = h5py.File(fn, 'r')
 	except Exception, e:
@@ -18,21 +26,19 @@ for fn in sys.argv[1:]:
 	else:
 		k = hdf['Key']
 
-	start_time = k['tracking_id'].attrs['exp_start_time']
-	channel_number = k['read_id'].attrs['channel_number']
-	read_number = k['read_id'].attrs['read_number']
+	result.append(fn)
 
-	try:
-		template_len = len(hdf['/Analyses/Basecall_2D_000/BaseCalled_template/Events'][()])
-	except Exception:
-		template_len = 0
+	result.append(k['tracking_id'].attrs['exp_start_time'])
+	result.append(k['read_id'].attrs['channel_number'])
+	result.append(k['read_id'].attrs['read_number'])
 
-	try:
-		complement_len = len(hdf['/Analyses/Basecall_2D_000/BaseCalled_complement/Events'][()])
-	except Exception:
-		complement_len = 0
+	result.append(get_hdf5_len(hdf, '/Analyses/Basecall_2D_000/BaseCalled_template/Events'))
+	result.append(get_hdf5_len(hdf, '/Analyses/Basecall_2D_000/BaseCalled_complement/Events'))
+	result.append(get_hdf5_len(hdf, '/Analyses/Basecall_2D_000/BaseCalled_template/Fastq'))
+	result.append(get_hdf5_len(hdf, '/Analyses/Basecall_2D_000/BaseCalled_complement/Fastq'))
+	result.append(get_hdf5_len(hdf, '/Analyses/Basecall_2D_000/BaseCalled_2D/Fastq'))
 
-	print "%s\t%s\t%s\t%s\t%s" % (start_time, channel_number, read_number, template_len, complement_len)
+	print "\t".join([str(x) for x in result])
 
 	hdf.close()
 

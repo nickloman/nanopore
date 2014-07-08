@@ -25,8 +25,8 @@ for fn in sys.argv[1:]:
 		try:
 			fq = hdf[key][()]
 			rec = SeqIO.read(StringIO(fq), "fastq")
-			rec.id += "_" + id
-			rec.description = fn
+			rec.description = rec.id + "_" + id
+			rec.id = fn
 			SeqIO.write([rec], sys.stdout, "fasta")
 			stats[key] += 1
 		except Exception, e:
